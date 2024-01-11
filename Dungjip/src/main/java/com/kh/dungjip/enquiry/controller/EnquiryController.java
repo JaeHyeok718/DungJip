@@ -103,7 +103,6 @@ public class EnquiryController {
 		System.out.println(enquiryList);
 		System.out.println(page);
 		
-		
 		ArrayList<Enquiry> enList = enquiryService.moreEnquiry(en);
 		
 		return enList;
@@ -121,7 +120,7 @@ public class EnquiryController {
 			session.setAttribute("alertMsg", "삭제가 완료되었습니다.");
 			
 		}else {
-			
+
 			session.setAttribute("errorMsg", "다시 시도해주세요.");	
 			
 		}

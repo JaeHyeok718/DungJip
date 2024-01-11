@@ -52,9 +52,61 @@
 	color: #D27E04;
 }
 
+
+             #num {
+            color: #D27E04;
+             }
+             
+             #type{
+             display: flex;
+             align-items: center;
+             justify-content: space-between;
+             }
+             
+             #realtype{
+            
+    		 padding: 6px;
+    		 border-radius: 50px;
+    		 background-color:rgb(255, 236, 235);
+    		 color:rgb(250, 78, 62);
+             }
+             
+             .profile{
+             width: 35px;
+    		 height: 35px;
+    		 border-radius: 50%;
+             }
+             
+             .d-flex{
+             display: flex;
+    		 align-items: center;
+    		 justify-content: flex-start;
+             }
+             
+             .good{
+             width: 20px;
+             }
+             
+             .emo{
+             display:flex;
+             align-items: center;
+             justify-content: flex-end;
+             }
+             
+             .likecount{
+             padding-left: 3px;
+             }
+             
+        	.like-btn.liked img {
+            filter: sepia(100);
+        	}
+
+             
+
 #num {
 	color: #D27E04;
 }
+
 
 #type {
 	display: flex;
@@ -400,10 +452,10 @@
 																                    '<div class="col-sm-6 col-md-3 p0" style="height: 377.59px;">' +
 																                        '<div class="box-two proerty-item" id="' + house.houseNo + '" onclick="detailHouse(this)">' +
 																                            '<div class="item-thumb" style="width:265px;">' +
-																                                '<img src="' + img + '" style="max-height: 225px; width: 265px;">' +
+																                                '<img src="' + img + '" style="max-height: 225px; width: 265px; cursor: pointer;">' +
 																                            '</div>' +
 																                            '<div class="item-entry overflow">' +
-																                                '<h5><a href="property-1.html">' + houseStyleDisplay + '</a></h5>' +
+																                                '<h5><a>' + houseStyleDisplay + '</a></h5>' +
 																                                '<div class="dot-hr"></div>' +
 																                                '<span class="pull-left"><b> 평수 :</b> ' + house.houseSquare + ' </span>' +
 																                                '<span class="proerty-price pull-right">' + house.houseType + '</span>' +
@@ -456,7 +508,6 @@
 
 									</div>
 								</div>
-
 								<div class="tab-pane fade active" id="review" role="tabpanel"
 									aria-labelledby="review-tab" style="width: 850px;">
 									<div class="row">
@@ -476,8 +527,7 @@
 													</div>
 												</div>
 												<div class="col-6" style="flex: 0.3">
-													<div class="rating_list" style="margin-top: 25px;"
-														id="count">
+													<div class="rating_list" style="margin-top: 25px;" id="count">
 														<h5 style="text-align: left;"></h5>
 														<ul class="list" style="padding: 0;">
 
@@ -518,7 +568,17 @@
                                                
                                                
                                                
+
+                                               
+                                               <div class="emo">
+                                                            <span class="like-btn" onclick="toggleLike(this)" >
+                                                            <img class="good" src="resources/img/good.svg">
+                                                           </span>
+                                                            <h6 class="likecount">25</h6>
+                                                            </div>
+
                                                <hr>
+
                                             </div>
                                             
                                             
@@ -532,6 +592,7 @@
                         </section>
                            <script>
    							 function toggleLike(element) {
+
 
    								 console.log("toggleLike element 로그");
    								 console.log(element);
@@ -595,7 +656,6 @@
                                     					
                                     					stars += "<i class='fa fa-star'></i> ";
                                     				}
-                               
                                                     
                                     				var reviewItem = $("<div class='review_item'>" +
                                     						"<div class='media'>" +
@@ -613,6 +673,7 @@
                             		        		        "</div>" +
                             		        		        "</div>" +
                             		        		        "<p>" + result.erlist[i].esReContent + "</p>" +
+                            		        		    	"<hr>"+
                             		        		        '<div class="emo"><span class="' + (result.reviewBooleans[i] === 1 ? "like-btn liked" : "like-btn") + '" onclick="toggleLike(this)" id="'+result.erlist[i].esReNo+'"><img class="good" src="resources/img/good.svg"> </span> <h6 id="likeCount'+result.erlist[i].esReNo+'" class="likecount">'+
                             		        		        result.erNums[i]+'</h6>'+
                             		        		        "</div>" 
@@ -646,6 +707,7 @@
                                     
                                     
                                     </script>
+
 
 					<div id="map" style="width: 1000px; height: 500px;"></div>
 					<script type="text/javascript"
@@ -804,6 +866,12 @@
 		                            clickedYMD: clickedYMD
 		                        },
 		                        success: function(result) {
+	                        		// 이전에 비활성화된 요소를 찾아 초기화
+	                        		var disabledElements = document.querySelectorAll('[disabled]');
+	                        		for (var i = 0; i < disabledElements.length; i++) {
+	                        		  disabledElements[i].disabled = false;
+	                        		  disabledElements[i].style.textDecoration = 'none';
+	                        		}
 		                        	if(result.length>0){
 			                        	for (var i = 0;i < result.length; i++){
 			                        		var time = "time"+result[i].selectTime;
@@ -812,7 +880,7 @@
 				                        	
 				                        	if (disDiv.disabled) {
 				                                disDiv.style.textDecoration = 'line-through';
-				                            }				                        	
+				                            }
 			                        	}
 		                        	}
 		                        },
@@ -863,23 +931,43 @@
 			
         	//달력 체크 표시
         	function cal(e){
-        		var select = document.querySelector(".selected");
-        		    // 이전에 선택된 요소가 있을 경우에만 클래스를 제거
-        		    if (select) {
-        		      select.classList.remove('selected');
-        		    }
-        		    // 현재 선택한 요소에 클래스 추가
-        		    e.srcElement.classList.add('selected');
-    		}
+      		 	  // 새로운 날짜 정보 가져오기
+	      		  var checkToday = new Date();
+	      		  var checkYear = checkToday.getFullYear();
+	      		  var checkMonth = checkToday.getMonth() + 1;
+	      		  var checkDay = checkToday.getDate();
+	
+	      		  // 월이 한 자리일 경우 "0"을 추가
+	      		  checkMonth = checkMonth < 10 ? '0' + checkMonth : checkMonth;
+	      		  
+	      		  // 일이 한 자리일 경우 "0"을 추가
+	      		  checkDay = checkDay < 10 ? '0' + checkDay : checkDay;
+	
+	      		  // Today를 문자열로 변환
+	      		  var checkToday = checkYear.toString() + checkMonth.toString() + checkDay.toString();
+	
+	      		  // 예약 날짜와 현재 날짜 비교
+	      		  if (clickedYMD < checkToday) {
+	      		    showWarning("경고", "예약은 오늘 날짜 또는 이후의 날짜만 선택가능합니다.", "확인");
+	      		  }else{        		
+	        		var select = document.querySelector(".selected");
+	        		    // 이전에 선택된 요소가 있을 경우에만 클래스를 제거
+	        		    if (select) {
+	        		      select.classList.remove('selected');
+	        		    }
+	        		    // 현재 선택한 요소에 클래스 추가
+	        		    e.srcElement.classList.add('selected');
+	    		}
+        	}
 			
         	//예약 insert
         	function reservation(){
         		var selectTime = document.querySelector(".check").name; //시간
         		var selectEsNo = document.getElementById("selectEsNo").value; //부동산 번호
         		var selectUserNo = document.getElementById('selectUserNo').value; //유저 번호
-        		console.log(selectTime);
+        		
         		if(selectUserNo == 0){
-        			showSuccess("경고","로그인 후 예약 가능합니다.","확인");
+        			showWarning("경고","로그인 후 예약 가능합니다.","확인");
         		}else{
 	          		let f = document.createElement('form');
 	        		
@@ -919,6 +1007,10 @@
         		}
         	}
         	
+			function detailHouse(e){
+				location.href="detail.ho?houseNo="+e.id;
+				console.log(e.id);
+			}
         	
         	
         	</script>

@@ -35,6 +35,17 @@
                 button : button,
             })
         }
+        
+        function showSuccessThen(title, text, button) {
+            swal({
+                title : title,
+                text : text,
+                icon : 'success',
+                button : button,
+            }).then(function(result) {
+                location.reload();
+            })
+        }
 
         function showConfirm(text, url) {
             swal({
@@ -43,7 +54,7 @@
                 buttons : [ "취소", "이동" ],
                 closeOnClickOutside : false,
             }).then(function(result) {
-                console.log(result);
+              
 
                 if (result) {
                     location.href = url;
@@ -59,7 +70,25 @@
                 buttons : [ "취소", "확인" ],
                 closeOnClickOutside : false,
             }).then(function(result) {
-                console.log(result);
+             
+
+                if (result) {
+                    return true;
+                } else {
+                	return false;
+                }
+
+            })
+        }
+        
+        function showConfirmToReport(text) {
+            swal({
+                text : text,
+                icon : 'warning',
+                buttons : [ "취소", "확인" ],
+                closeOnClickOutside : false,
+            }).then(function(result) {
+               
 
                 if (result) {
                     return true;
