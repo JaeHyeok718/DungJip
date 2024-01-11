@@ -20,7 +20,7 @@
 ![회심의 한방 최종 erd](https://github.com/JaeHyeok718/DungJip/assets/149359037/d0e07b08-6a9e-43d1-a322-4a83ef31c1c4)
 
 
-## 3. 전체적인 기능 📌
+## 4. 전체적인 기능 📌
 1.사용자 인증 및 계정 관리<br>
   • 로그인<br>
   • 회원가입<br>
@@ -56,7 +56,7 @@
 
 
 
-## 4. What did Use? 🛠️
+## 5. What did Use? 🛠️
 </br>
     Front - HTML5, CSS3, JavaScript, Jquery, AJAX<br>
     Back - JAVA, JSP & Servlet<br>
@@ -66,7 +66,7 @@
     Was - Apache Tomcat 9.0<br>
     Collaboration - Git / Slack / Notion<br>
 
-## 5.나의 담당 구현 기능 🖐️
+## 6. 나의 담당 구현 기능 🖐️
 채팅 기능 구현<br> 
  • WebSocket을 사용한 1:1 채팅 구현<br>
  • 사용자와 상대의 채팅을 쉽게 알아볼 수 있도록 인터페이스 구현<br>
@@ -85,7 +85,7 @@
 인터셉터 기능 구현 <br>
 • 비정상적인 방법으로(URL 접근) 접근할 시에 경고창을 띄우면서 해당하는 인덱스로 못가게 막아둠<br>
 
-## 6. 프로젝트 참여 소감 📖
+## 7. 프로젝트 참여 소감 📖
 프로젝트에 참여하여 Spring을 도입함으로써 이전에 사용하지 않았을 때 발생한 불편함을 해결할 수 있었습니다.<br>
 기존의 MVC 모델에서 사전에 구축된 모듈을 사용하여 컨트롤러, 서비스 및 DAO를 간단하게 어노테이션을 통해 정의할 수 있었습니다.<br>
 롬복(LOMBOK)을 사용하여 VO를 쉽게 정의할 수 있어 편리했습니다. 또한, 의존성을 쉽게 주입할 수 있는 Dependency를 통해 프로젝트가 훨씬 간단해졌습니다. <br>
@@ -98,6 +98,6 @@
 가장 기억에 남는 것은 어려운 문제를 해결하기 위해 모두가 함께 노력한 것입니다. 이 프로젝트 동안 가장 기억에 남는 것은 각 개인이 팀에 통합되어 서로에게 힘을 실어준 것입니다.<br>
 
 
-## 7.나의 프로젝트 구현 기능 영상 📹(클릭시 블로그로 연결됩니다)
+## 8.나의 프로젝트 구현 기능 영상 📹(클릭시 블로그로 연결됩니다)
 <a href="https://blog.naver.com/jangcodingstudy/223317004758"><img width="604" alt="image" src="https://github.com/JaeHyeok718/DungJip/assets/149359037/f3d7ad36-9257-4e5e-afef-5bfe4e6d4639"></a>
 
