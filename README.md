@@ -15,6 +15,11 @@
 <img width="607" alt="image" src="https://github.com/JaeHyeok718/DungJip/assets/149359037/3ec4d182-4c7d-4e22-891f-fbd72d680615">
 
 
+## 3. ERD🗺️
+
+![회심의 한방 최종 erd](https://github.com/JaeHyeok718/DungJip/assets/149359037/d0e07b08-6a9e-43d1-a322-4a83ef31c1c4)
+
+
 ## 3. 전체적인 기능 📌
 1.사용자 인증 및 계정 관리<br>
   • 로그인<br>
