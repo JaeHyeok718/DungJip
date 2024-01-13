@@ -153,9 +153,8 @@
                 
             </div>
         </nav>
-
         
-        <c:if test="${not empty alertMsg }">
+        <c:if test="${not empty alertMsg  or not empty errorMsg }">
         <script>
             var alertMsg = "${alertMsg}";
             var errorMsg = "${errorMsg}";
@@ -164,6 +163,8 @@
             } else {
 	            showError("오류", errorMsg, "확인");            	
             }
+            alertMsg = "";
+            errorMsg = "";
         </script>
         <c:remove var="alertMsg" />
         <c:remove var="errorMsg" />

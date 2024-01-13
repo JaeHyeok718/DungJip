@@ -23,7 +23,7 @@ public interface HouseService {
 	
 	ArrayList<House> selectHouseMain(String type);
 
-	ArrayList<HouseImg> selectHouseThumnail();
+	ArrayList<HouseImg> selectHouseThumnail(String type);
 
 	//부동산 집 리스트
 	ArrayList<House> selectHouseList(int esNo,PageInfo pi);
@@ -137,6 +137,9 @@ public interface HouseService {
 
 	int deleteKeywords(Map<String, Object> paramMap);
 
+
+	int updateReviewImg(Map<String, Object> paramMap);
+
 	int selectResidentEmoCount(int reReviewNo);
 
 	int selectResidentReviewLikeCount(Map<String, Object> numMap);
@@ -149,6 +152,7 @@ public interface HouseService {
   
 	//중개인 예약내역 페이징
 	int mypagemypageEsReservationCount(Integer esNo);
+
 
 
 

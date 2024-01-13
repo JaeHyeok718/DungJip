@@ -147,12 +147,19 @@
 	font-weight: bold;
 	color: red;
 }
+
+#reviewH3{
+	padding-top: 90px;
+  	text-align: center;
+}
+
 </style>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 </head>
 <body>
 	<%@ include file="../common/header.jsp"%>
+	
 	<div id="preloader">
 		<div id="status">&nbsp;</div>
 	</div>
@@ -241,8 +248,9 @@
 											<input type="hidden" value="${e.esNo}" id="selectEsNo">
 											<input type="hidden" value="${loginUser.userNo}" id="selectUserNo">
 											<input onclick="reservation();" class="button btn largesearch-btn" value="예약하기" type="submit">
-											<input class="button btn largesearch-btn" value="상담하기" type="button" 
-											onclick="location.href='websocket/ask?estateUserNo=${e.member.userNo}'">
+									
+											<input class="button btn largesearch-btn" id="clickChatBtn" value="상담하기" type="button" 
+											onclick="qwer();">
 										</div>																			<!-- onclick="location.href='websocket/ask?estateUserNo=${e.member.userNo}'" -->
 
 									</div>
@@ -252,6 +260,19 @@
 
 					</aside>
 				</div>
+				<script type="text/javascript">
+				function qwer(){
+					console.log("${loginUser}");
+					if("${loginUser}" != ""){
+						location.href='websocket/ask?estateUserNo='+"${e.member.userNo}";
+					
+					}else{
+						showError("실패","로그인 후 이용 가능 합니다","확인");
+					}
+				}
+				</script>
+				
+				
 				<div class="col-md-8 single-property-content prp-style-1 "
 					style="width: 1100px;">
 
@@ -261,17 +282,17 @@
 								style="width: 1100px;">
 								<li class="nav-item"><a class="nav-link" id="home-tab"
 									data-toggle="tab" href="#home" role="tab" aria-controls="home"
-									aria-selected="true">Description</a></li>
+									aria-selected="true">상세설명</a></li>
 								<li class="nav-item"><a class="nav-link" id="profile-tab"
 									data-toggle="tab" href="#profile" role="tab"
-									aria-controls="profile" aria-selected="false">Specification</a>
+									aria-controls="profile" aria-selected="false">상세정보</a>
 								</li>
 								<li class="nav-item"><a class="nav-link" id="contact-tab"
 									data-toggle="tab" href="#contact" role="tab"
-									aria-controls="contact" aria-selected="false">House List</a></li>
+									aria-controls="contact" aria-selected="false">매물 종류</a></li>
 								<li class="nav-item"><a class="nav-link active"
 									id="review-tab" data-toggle="tab" href="#review" role="tab"
-									aria-controls="review" aria-selected="false">Reviews</a></li>
+									aria-controls="review" aria-selected="false">리뷰</a></li>
 							</ul>
 							<div class="tab-content" id="myTabContent" style="width: 1100px;">
 								<div class="tab-pane fade" id="home" role="tabpanel"
@@ -357,18 +378,7 @@
 
 														<div class="col-md-12  clear">
 															<div class="col-xs-10 page-subheader sorting pl0">
-																<ul class="sort-by-list">
-																	<li class="active"><a href="javascript:void(0);"
-																		class="order_by_date" data-orderby="property_date"
-																		data-order="ASC"> Property Date <i
-																			class="fa fa-sort-amount-asc"></i>
-																	</a></li>
-																	<li class=""><a href="javascript:void(0);"
-																		class="order_by_price" data-orderby="property_price"
-																		data-order="DESC"> Property Price <i
-																			class="fa fa-sort-numeric-desc"></i>
-																	</a></li>
-																</ul>
+																
 																<!--/ .sort-by-list-->
 
 
@@ -510,24 +520,31 @@
 								</div>
 								<div class="tab-pane fade active" id="review" role="tabpanel"
 									aria-labelledby="review-tab" style="width: 850px;">
-									<div class="row">
-										<div class="col-lg">
-											<div class="row total_rate" style="display: flex;">
-												<div class="col-6" style="flex: 1">
-													<div class="box_total">
-														<br>
-
-														<h3
-															style="text-align: center; font-weight: bold; margin: 20px 0 0 0;">Overall</h3>
-
-														<h1
-															style="text-align: center; color: #D27E04; font-weight: bold; margin: 0;"></h1>
-
-														<h5 style="text-align: center;"></h5>
+								<c:choose>
+									<c:when test="${empty loginUser.userType}">
+										<h3 id="reviewH3">로그인 후 리뷰 확인 가능합니다!</h3>
+									</c:when>
+									<c:otherwise>									
+										<div class="row">
+											<div class="col-lg">
+												<div class="row total_rate" style="display: flex;">
+													<div class="col-6" style="flex: 1">
+														<div class="box_total">
+															<br>
+	
+															<h3
+																style="text-align: center; font-weight: bold; margin: 20px 0 0 0;">Overall</h3>
+	
+															<h1
+																style="text-align: center; color: #D27E04; font-weight: bold; margin: 0;"></h1>
+	
+															<h5 style="text-align: center;"></h5>
+														</div>
 													</div>
 												</div>
 												<div class="col-6" style="flex: 0.3">
-													<div class="rating_list" style="margin-top: 25px;" id="count">
+													<div class="rating_list" style="margin-top: 25px;"
+														id="count">
 														<h5 style="text-align: left;"></h5>
 														<ul class="list" style="padding: 0;">
 
@@ -561,6 +578,9 @@
                                                     </div>
                                                 </div>
                                                 
+                             
+                                                
+                                                
                                                 <div id="reviewContainer">
                                                 <div class="review_list" style="width: 1100px;">
                                                     <!-- 리뷰내용 -->
@@ -572,9 +592,9 @@
                                                
                                                <div class="emo">
                                                             <span class="like-btn" onclick="toggleLike(this)" >
-                                                            <img class="good" src="resources/img/good.svg">
+                                                            
                                                            </span>
-                                                            <h6 class="likecount">25</h6>
+                                                            
                                                             </div>
 
                                                <hr>
@@ -586,7 +606,6 @@
                                             
                                         </div>
                                     </div>
-                                    
                                 </div>
                             </div>
                         </section>
@@ -666,17 +685,22 @@
                             		        		        "<div class='media-body'>" +
                             		        		        "<span>" + result.erlist[i].esReCreateDate + "</span>" +
                             		        		        "<div id='type'>" +
-                            		        		        "<b>" + result.erlist[i].house.houseTitle + "</b>" +
+                            		        		        "<b>" + result.erlist[i].house.houseName + "</b>" +
                             		        		        "<h6 id='realtype'>"+result.erlist[i].esReType +"</h6>" +
                             		        		        "</div>" + 
                             		        		        stars +
                             		        		        "</div>" +
                             		        		        "</div>" +
+
                             		        		        "<p>" + result.erlist[i].esReContent + "</p>" +
-                            		        		    	"<hr>"+
+
+
                             		        		        '<div class="emo"><span class="' + (result.reviewBooleans[i] === 1 ? "like-btn liked" : "like-btn") + '" onclick="toggleLike(this)" id="'+result.erlist[i].esReNo+'"><img class="good" src="resources/img/good.svg"> </span> <h6 id="likeCount'+result.erlist[i].esReNo+'" class="likecount">'+
+
                             		        		        result.erNums[i]+'</h6>'+
-                            		        		        "</div>" 
+                            		        		        "</div>" +
+                            		        		    	"<hr>"
+
                             		        		        );
                                     				 $(".review_list").append(reviewItem);
                                     		} 
@@ -754,12 +778,14 @@
             });
         </script>
 
-
+<script>
+			function detailHouse(e){
+				location.href="detail.ho?houseNo="+e.id;
+				console.log(e.id);
+			}
+			</script>
 
 	<script>
-			
-			
-			
 			$(document).ready(function() {
 			    // myTab 링크 클릭 시 함수 실행
 			   
@@ -800,9 +826,6 @@
 			            container.style.display = 'block';
 			        });
 			});
-			
-			
-
 			</script>
 
 			<!-- 예약 -->
@@ -936,6 +959,7 @@
 	      		  var checkYear = checkToday.getFullYear();
 	      		  var checkMonth = checkToday.getMonth() + 1;
 	      		  var checkDay = checkToday.getDate();
+	      		  var userType = "${loginUser.userType}";
 	
 	      		  // 월이 한 자리일 경우 "0"을 추가
 	      		  checkMonth = checkMonth < 10 ? '0' + checkMonth : checkMonth;
@@ -946,18 +970,24 @@
 	      		  // Today를 문자열로 변환
 	      		  var checkToday = checkYear.toString() + checkMonth.toString() + checkDay.toString();
 	
-	      		  // 예약 날짜와 현재 날짜 비교
-	      		  if (clickedYMD < checkToday) {
-	      		    showWarning("경고", "예약은 오늘 날짜 또는 이후의 날짜만 선택가능합니다.", "확인");
-	      		  }else{        		
-	        		var select = document.querySelector(".selected");
-	        		    // 이전에 선택된 요소가 있을 경우에만 클래스를 제거
-	        		    if (select) {
-	        		      select.classList.remove('selected');
-	        		    }
-	        		    // 현재 선택한 요소에 클래스 추가
-	        		    e.srcElement.classList.add('selected');
-	    		}
+	      		  //중개인의 경우 예약 불가
+	      		  if(userType == "중개인"){
+	      			showWarning("경고", "중개인은 다른 중개인에게 예약을 하실 수 없습니다.", "확인");
+	      		  }else{
+		      		  // 예약 날짜와 현재 날짜 비교
+		      		  if (clickedYMD < checkToday) {
+		      		    showWarning("경고", "예약은 오늘 날짜 또는 이후의 날짜만 선택가능합니다.", "확인");
+		      		  }else{        		
+		        		var select = document.querySelector(".selected");
+		        		    // 이전에 선택된 요소가 있을 경우에만 클래스를 제거
+		        		    if (select) {
+		        		      select.classList.remove('selected');
+		        		    }
+		        		    // 현재 선택한 요소에 클래스 추가
+		        		    e.srcElement.classList.add('selected');
+		    		}
+	      		  	      			  
+	      		  }
         	}
 			
         	//예약 insert

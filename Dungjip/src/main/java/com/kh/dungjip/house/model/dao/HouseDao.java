@@ -49,8 +49,8 @@ public class HouseDao {
 		return sqlSession.delete("houseMapper.deleteJjim",jj);
 	}
 	
-	public ArrayList<HouseImg> selectHouseThumnail(SqlSessionTemplate sqlSession) {
-		ArrayList<HouseImg> hImgList = (ArrayList) sqlSession.selectList("houseMapper.selectHouseThumnail");
+	public ArrayList<HouseImg> selectHouseThumnail(SqlSessionTemplate sqlSession, String type) {
+		ArrayList<HouseImg> hImgList = (ArrayList) sqlSession.selectList("houseMapper.selectHouseThumnail", type);
 		return hImgList;
 	}
 
@@ -314,6 +314,12 @@ public class HouseDao {
 		return sqlSession.delete("houseMapper.deleteKeywords",paramMap);
 	}
 
+
+	public int updateReviewImg(SqlSessionTemplate sqlSession, Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("houseMapper.updateReviewImg",paramMap);
+	}
+
 	public int selectResidentEmoCount(SqlSessionTemplate sqlSession, int reReviewNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("houseMapper.selectResidentEmoCount", reReviewNo);
@@ -365,6 +371,7 @@ public class HouseDao {
 	public int mypagemypageEsReservationCount(SqlSessionTemplate sqlSession, Integer esNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("houseMapper.mypagemypageEsReservationCount",esNo);
+
 	}
 
 }

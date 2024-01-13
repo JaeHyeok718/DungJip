@@ -19,6 +19,7 @@ import java.util.stream.IntStream;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.binding.MapperMethod.ParamMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -62,7 +63,7 @@ public class HouseController {
 	public String insertHouse(HttpSession session) throws IOException, ParseException {
 
 		Reader reader = new FileReader(
-				"C:\\Users\\user1\\git\\DungJip\\Dungjip\\src\\main\\webapp\\WEB-INF\\resources\\jik.json");
+				"C:\\Users\\easyoh\\git\\DungJip\\Dungjip\\src\\main\\webapp\\WEB-INF\\resources\\jik.json");
 
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(reader);
@@ -85,8 +86,10 @@ public class HouseController {
 
 			Date sqlDate = Date.valueOf(localDateTime.toLocalDate());
 			Date sqlBuildDate = Date.valueOf(localBuildDateTime.toLocalDate());
+			System.out.println("qwer");
+			System.out.println(Integer.parseInt(String.valueOf(object.get("user_no"))));
 			
-					House house = House.builder().housePrice((String)object.get("deposit"))
+					House house = House.builder().housePrice(String.valueOf(object.get("deposit")))
 											.houseRent(Integer.parseInt(String.valueOf(object.get("rent"))))
 											.houseSquare(Double.parseDouble(String.valueOf(sqrtP.get("p"))))
 											.houseStyle((String)object.get("sales_type"))
@@ -108,6 +111,7 @@ public class HouseController {
 //											.houseBuildDate(sqlBuildDate)
 											.houseAnimals((String)object.get("animals"))
 											.houseName((String)object.get("name"))
+											.userNo(Integer.parseInt(String.valueOf(object.get("user_no"))))
 											.status("Y")
 											.build();
 			
@@ -175,7 +179,7 @@ public class HouseController {
 
 	public ModelAndView villaMap(String locate, String type, ModelAndView mv) {
 		ArrayList<House> lList = houseService.selectHouse(type);
-		ArrayList<HouseImg> hImgList = houseService.selectHouseThumnail();
+		ArrayList<HouseImg> hImgList = houseService.selectHouseThumnail(type);
 
 		mv.addObject("lList", lList).addObject("locate", locate).addObject("hImgList", hImgList).addObject("type", type)
 				.setViewName("house/houseMap");
@@ -308,8 +312,6 @@ public class HouseController {
 	@ResponseBody
 	@RequestMapping(value="resi.re",produces="application/json; charset=UTF-8")
 	public Map<String,Object> selectResidentReviewList(int houseNo, int userNo){
-		System.out.println("userNo");
-		System.out.println(userNo);
 		ArrayList<ResidentReview> rlist = houseService.selectResidentReviewList(houseNo);
 		
 		List<Integer> residentArr = new ArrayList<>();
@@ -326,12 +328,6 @@ public class HouseController {
 			residentArr.add(num);
 			reviewBooleanArr.add(result);
 		}
-		
-
-		System.out.println("residentArr");
-		System.out.println(residentArr);
-		System.out.println("reviewBooleanArr");
-		System.out.println(reviewBooleanArr);
 		
 		//리뷰 총점
 		int sum = houseService.selectResidentReviewSum(houseNo);
@@ -388,7 +384,6 @@ public class HouseController {
 		map.put("residentArr", residentArr);
 		map.put("reviewBooleanArr", reviewBooleanArr);
 		
-		System.out.println(rlist);
 		return map;
 		
 	}
@@ -407,9 +402,6 @@ public class HouseController {
 			int result = 0;
 			
 			int bool = 0;
-
-			System.out.println("count");
-			System.out.println(count);
 			
 			if(count > 0) {
 				result = houseService.decreaseCount(map);
@@ -443,13 +435,9 @@ public class HouseController {
 	@PostMapping("insert.rere")
 	public String insertResidentReview(int houseNo, HttpSession session,ResidentReview rr, Model model,@RequestParam("reviewImage") MultipartFile file, @RequestParam String prosKeywords, @RequestParam String consKeywords){
 
-		System.out.println(prosKeywords);
-		System.out.println(consKeywords);
 		String keywordString = prosKeywords + "," + consKeywords;
 		String[] keywordNo = keywordString.split(",");
-		System.out.println(keywordNo);
 		Member loginUser = (Member) session.getAttribute("loginUser");
-		System.out.println(rr);
 		Map<String, Object> map = new HashMap<>();
 		map.put("rr", rr);
 		if(loginUser !=null && rr!=null) {
@@ -457,11 +445,10 @@ public class HouseController {
 			int reReviewNo = houseService.insertResidentReview(rr);
 			for(int i = 0; i < keywordNo.length; i++) {
 				map.put("keyword", keywordNo[i]);
-				System.out.println(keywordNo[i]);
 				houseService.insertMemberKeyword(map);
 				map.remove("keyword");
 			}
-			
+		
 			String uploadPath ="src/main/resources/review/";
 			 
 			    if (file != null && !file.isEmpty()) {
@@ -524,16 +511,30 @@ public class HouseController {
 	
 	
 	@PostMapping("update.rere")
-	public String updateResident(int reReviewNo,int houseNo,  MultipartFile reUpFile,ResidentReview rr, Model model, HttpSession session,@RequestParam("reviewImage") MultipartFile file, @RequestParam String prosKeywords, @RequestParam String consKeywords){
+	public String updateResident(ReviewImg ri, int reReviewNo,int houseNo,  @RequestParam("reviewImage") MultipartFile file,ResidentReview rr, Model model, HttpSession session, @RequestParam String prosKeywords, @RequestParam String consKeywords){
 	
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		
+
+		
+
 		if(loginUser != null && rr!= null) {
 			
-			 
+			if(!file.getOriginalFilename().equals("")) {
+				String changeName = saveFile(file,session);
+				
+				if(!ri.getOriginName().equals("")) {
+					new File(session.getServletContext().getRealPath(ri.getChangeName())).delete();
+				}
+				
+				ri.setOriginName(file.getOriginalFilename());
+				ri.setChangeName("resources/review/"+changeName);
+			}
+			
 			
 			 Map<String, Object> paramMap = new HashMap<>();
 		     paramMap.put("rr", rr);
+		     paramMap.put("ri",ri);
 		     paramMap.put("loginUser", loginUser);
 		     int result = houseService.updateResidentReview(paramMap);
 		     
@@ -545,10 +546,10 @@ public class HouseController {
 		     String[] keywordNo = keywordString.split(",");
 		     for(int i = 0; i < keywordNo.length; i++) {
 		    	 paramMap.put("keyword", keywordNo[i]);
-					System.out.println(keywordNo[i]);
 					 houseService.updateKeywords(paramMap);
 					paramMap.remove("keyword");
 				}
+		     houseService.updateReviewImg(paramMap);
 		    
 		     
 		     
@@ -568,6 +569,26 @@ public class HouseController {
 		}
 		
 		
+	}
+	
+	public String saveFile(@RequestParam("reviewImage") MultipartFile file, HttpSession session) {
+		
+		String originName = file.getOriginalFilename();
+        String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date());
+        int ranNum = (int) (Math.random() * 90000 + 10000);
+        String ext = originName.substring(originName.lastIndexOf("."));
+        String changeName = currentTime + ranNum + ext;
+        String savePath = session.getServletContext().getRealPath("/resources/review/");
+
+        try {
+          
+        		  File uploadFile = new File(savePath+changeName);
+        		  file.transferTo(uploadFile); 
+            }catch (Exception e) {
+            e.printStackTrace();
+        }
+       
+		return changeName;
 	}
 	
 	//마이페이지에서 집 찜해제
