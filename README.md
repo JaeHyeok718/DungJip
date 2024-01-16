@@ -94,6 +94,6 @@ Interceptor 구현 <br>
 가장 기억에 남는 것은 어려운 문제를 해결하기 위해 모두가 함께 노력한 것입니다. 이 프로젝트 동안 가장 기억에 남는 것은 각 개인이 팀에 통합되어 서로에게 힘을 실어준 것입니다.<br>
 
 
-## 7.나의 프로젝트 구현 기능 영상 📹(클릭시 블로그로 연결됩니다)
-<a href="https://blog.naver.com/jangcodingstudy/223316920887"><img width="604" alt="image" src="https://github.com/JaeHyeok718/DungJip/assets/149359037/f3d7ad36-9257-4e5e-afef-5bfe4e6d4639"></a>
+## 7.나의 프로젝트 구현 기능 영상 📹(클릭시 유튜브로 연결됩니다)
+<a href="https://youtu.be/MXBcRwxGvbI?si=w4MJdYxft3UIAnVb"><img width="604" alt="image" src="https://github.com/JaeHyeok718/DungJip/assets/149359037/f3d7ad36-9257-4e5e-afef-5bfe4e6d4639"></a>
 
